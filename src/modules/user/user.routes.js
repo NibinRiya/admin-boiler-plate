@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { createUser } = require('./user.controller');
+const { createUser, editUser } = require('./user.controller');
 const auth = require('../../middlewares/auth.middleware');
 
 router.post('/create', auth, createUser);
-
+router.post('/edit/:id', auth, editUser);
 router.get('/profile', auth, (req, res) => {
-  res.json(req.user);
+  res.status(200).json(req.user);
 });
 
 module.exports = router;
