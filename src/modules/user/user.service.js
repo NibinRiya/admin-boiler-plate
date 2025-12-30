@@ -1,8 +1,12 @@
 const userModel = require("./user.model");
 const mongoose = require('mongoose');
 
+exports.getUsers = async () => {
+    const users = await userModel.find();
+    return users;
+}
 exports.createUser = async (userData) => {
-    if (!userData) {
+    if (!userData || Object.keys(userData).length === 0) {
         throw new Error("User data is required");
     }
   const user = await userModel.create(userData);
@@ -44,3 +48,17 @@ exports.editUser = async (userId, updateData) => {
 
   return updatedUser;
 };
+exports.deleteUser = async (userId) => {
+    // 1️⃣ Validate userId presence
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      const error = new Error('Invalid user ID format');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const user = await userModel.findByIdAndDelete(userId);
+    return user;
+  };
