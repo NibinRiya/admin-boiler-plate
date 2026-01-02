@@ -19,10 +19,18 @@ exports.register = async (data) => {
 
 exports.login = async (email, password) => {
   const user = await User.findOne({ email }).select('+password +refreshToken');
-  if (!user) throw new Error('Invalid credentials');
+  if (!user) {
+    const error = new Error('Invalid credentials');
+    error.statusCode = 401;
+    throw error;
+  }
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) throw new Error('Invalid credentials');
+  if (!isMatch) {
+    const error = new Error('Invalid credentials');
+    error.statusCode = 401;
+    throw error;
+  }
 
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken(user._id);
