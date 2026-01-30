@@ -16,8 +16,16 @@ app.use(cors({
 app.options('*', cors());
 app.use(express.json());
 app.use('/api', routes);
-// Swagger route
-app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+// Swagger route (enable only when SHOW_API_DOCS=true)
+if (process.env.SHOW_API_DOCS === 'true') {
+  try {
+    const basicAuth = require('express-basic-auth');
+    app.use('/api/docs', basicAuth({ users: { admin: process.env.SWAGGER_PASSWORD || 'admin' }, challenge: true }), swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+  } catch (err) {
+    // express-basic-auth is optional; fall back to unprotected docs if not installed
+    app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+  }
+}
 app.use(errorHandler);
 
 module.exports = app;

@@ -29,7 +29,7 @@ router.get('/profile', auth, (req, res) => {
 /**
  * @swagger
  * /users/{id}:
- *   post:
+ *   put:
  *     summary: Update user
  *     tags: [Users]
  *     security:
@@ -62,7 +62,7 @@ router.get('/profile', auth, (req, res) => {
  *       404:
  *         description: User not found
  */
-router.post('/:id', auth, editUser);
+router.put('/:id', auth, editUser);
 /**
  * @swagger
  * /users/:
@@ -80,7 +80,7 @@ router.post('/:id', auth, editUser);
 router.get('/', auth, getUsers);
 /**
  * @swagger
- * /users/create:
+ * /users/:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
@@ -108,7 +108,7 @@ router.get('/', auth, getUsers);
  *       404:
  *         description: User not found
  */
-router.post('/create', auth, createUser);
+router.post('/', auth, createUser);
 /**
  * @swagger
  * /users/{id}:
