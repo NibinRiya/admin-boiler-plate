@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "build": "npm run lint && npm run test && npm run validate",
+    "build": "npm run test && npm run validate",
     "build:prod": "npm run clean && npm run lint && npm run test && npm run copy:dist && npm run validate:prod",
     "clean": "node -e \"const fs = require('fs'); const path = require('path'); const distPath = path.join(process.cwd(), 'dist'); if(fs.existsSync(distPath)) { fs.rmSync(distPath, { recursive: true, force: true }); } fs.mkdirSync(distPath, { recursive: true }); console.log('✓ Dist directory cleaned');\"",
     "copy:dist": "node -e \"const fs = require('fs'); const path = require('path'); const srcDir = path.join(process.cwd(), 'src'); const distDir = path.join(process.cwd(), 'dist'); function copyRecursive(src, dest) { if (!fs.existsSync(dest)) { fs.mkdirSync(dest, { recursive: true }); } fs.readdirSync(src).forEach(file => { const srcFile = path.join(src, file); const destFile = path.join(dest, file); if (fs.lstatSync(srcFile).isDirectory()) { copyRecursive(srcFile, destFile); } else { fs.copyFileSync(srcFile, destFile); } }); } copyRecursive(srcDir, distDir); const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8')); delete pkgJson.devDependencies; fs.writeFileSync(path.join(distDir, '..', 'package.json'), JSON.stringify(pkgJson, null, 2)); console.log('✓ Source files copied to dist');\"",
