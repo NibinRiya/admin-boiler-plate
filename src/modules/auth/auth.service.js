@@ -6,15 +6,16 @@ const {
 } = require('../../utils/jwt');
 
 exports.register = async (data) => {
-  console.log("REGISTER DATA:", data);
+  const existingUser = await User.findOne({ email: data.email });
+  if (existingUser) {
+    const error = new Error('Email already in use');
+    error.statusCode = 400;
+    throw error;
+  }
   const payload = data.user || data;
-
   const user = await User.create(payload);
-    console.log("PAYLOAD USED:", payload);
-
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken(user._id);
-
   user.refreshToken = refreshToken;
   await user.save();
 
