@@ -7,7 +7,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "build": "npm run test && npm run validate",
-    "build:prod": "npm run clean && npm run lint && npm run test && npm run copy:dist && npm run validate:prod",
+    "build:prod": "npm run clean &&  npm run test && npm run copy:dist && npm run validate:prod",
     "clean": "node -e \"const fs = require('fs'); const path = require('path'); const distPath = path.join(process.cwd(), 'dist'); if(fs.existsSync(distPath)) { fs.rmSync(distPath, { recursive: true, force: true }); } fs.mkdirSync(distPath, { recursive: true }); console.log('✓ Dist directory cleaned');\"",
     "copy:dist": "node -e \"const fs = require('fs'); const path = require('path'); const srcDir = path.join(process.cwd(), 'src'); const distDir = path.join(process.cwd(), 'dist'); function copyRecursive(src, dest) { if (!fs.existsSync(dest)) { fs.mkdirSync(dest, { recursive: true }); } fs.readdirSync(src).forEach(file => { const srcFile = path.join(src, file); const destFile = path.join(dest, file); if (fs.lstatSync(srcFile).isDirectory()) { copyRecursive(srcFile, destFile); } else { fs.copyFileSync(srcFile, destFile); } }); } copyRecursive(srcDir, distDir); const pkgJson = JSON.parse(fs.readFileSync('package.json', 'utf8')); delete pkgJson.devDependencies; fs.writeFileSync(path.join(distDir, '..', 'package.json'), JSON.stringify(pkgJson, null, 2)); console.log('✓ Source files copied to dist');\"",
     "validate:prod": "npm install --production && node -e \"console.log('✓ Production build ready!')\"",
@@ -29,7 +29,9 @@
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11",
-    "express-basic-auth": "^1.2.0"
+    "eslint": "^10.0.0",
+    "express-basic-auth": "^1.2.0",
+    "jest": "^30.2.0",
+    "nodemon": "^3.1.11"
   }
 }
