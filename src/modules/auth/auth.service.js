@@ -6,7 +6,11 @@ const {
 } = require('../../utils/jwt');
 
 exports.register = async (data) => {
-  const user = await User.create(data);
+  console.log("REGISTER DATA:", data);
+  const payload = data.user || data;
+
+  const user = await User.create(payload);
+    console.log("PAYLOAD USED:", payload);
 
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken(user._id);

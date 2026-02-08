@@ -279,9 +279,7 @@ To enable and protect the Swagger UI, set the following environment variables (r
 Example (PowerShell):
 
 ```powershell
-$env:SHOW_API_DOCS='true'
-$env:SWAGGER_PASSWORD='strong-docs-pass'
-npm run dev
+$env:SHOW_API_DOCS='true' $env:SWAGGER_PASSWORD='strong-docs-pass' npm run dev
 ```
 
 Example (macOS / Linux):
