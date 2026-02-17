@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, unique: true },
     password: { type: String, select: false },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    status: { type: String, enum: ['active', 'inactive'], default: 'active' },
     refreshToken: { type: String, select: false },
   },
   { timestamps: true }
