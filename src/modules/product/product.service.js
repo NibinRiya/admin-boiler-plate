@@ -2,7 +2,7 @@ const productModel = require('./product.model');
 const mongoose = require('mongoose');
 
 exports.getProducts = async () => {
-  return await productModel.find();
+  return await productModel.find().populate('userId', 'name email role');
 };
 
 exports.createProduct = async (productData) => {
@@ -36,7 +36,7 @@ exports.editProduct = async (productId, updateData) => {
         throw error;
     }
 
-  return await productModel.findByIdAndUpdate(productId, updateData, { new: true, runValidators: true });
+  return await productModel.findByIdAndUpdate(productId, updateData, { new: true, runValidators: true }).populate('userId', 'name email role');
 };
 
 exports.deleteProduct = async (productId) => {

@@ -11,7 +11,8 @@ exports.getProducts = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const product = await productService.createProduct(req.body);
+    const productData = { ...req.body, userId: req.user._id };
+    const product = await productService.createProduct(productData);
     res.status(201).json(product);
   } catch (error) {
     next(error);

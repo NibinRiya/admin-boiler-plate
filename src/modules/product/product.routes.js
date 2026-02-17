@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { getProducts, createProduct, editProduct, deleteProduct } = require('./product.controller');
 const auth = require('../../middlewares/auth.middleware');
+const isAdmin = require('../../middlewares/admin.middleware');
 
 /**
  * @swagger
@@ -56,7 +57,7 @@ router.get('/', auth, getProducts);
  *         description: Product not found
  */
 
-router.post('/', auth, createProduct);
+router.post('/', auth, isAdmin, createProduct);
 /**
  * @swagger
  * /products/{id}:
@@ -94,7 +95,7 @@ router.post('/', auth, createProduct);
  *         description: Product not found
  */
 
-router.put('/:id', auth, editProduct);
+router.put('/:id', auth, isAdmin, editProduct);
 /**
  * @swagger
  * /products/{id}:
@@ -120,6 +121,6 @@ router.put('/:id', auth, editProduct);
  *         description: Unauthorized
  */
 
-router.delete('/:id', auth, deleteProduct);
-
+router.delete('/:id', auth, isAdmin, deleteProduct);
+11
 module.exports = router;

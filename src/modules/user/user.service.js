@@ -31,7 +31,7 @@ exports.editUser = async (userId, updateData) => {
   }
 
   const existingUser = await userModel.findById(userId);
-  if (!existingUser) {
+  if (!existingUser || existingUser === null) {
     const error = new Error('User not found');
     error.statusCode = 404;
     throw error;
@@ -53,6 +53,12 @@ exports.deleteUser = async (userId) => {
     if (!userId) {
       throw new Error('User ID is required');
     }
+  const existingUser = await userModel.findById(userId);
+    if(!existingUser || existingUser === null) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error; }
+
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       const error = new Error('Invalid user ID format');
       error.statusCode = 400;

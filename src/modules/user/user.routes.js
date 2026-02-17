@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { getUsers, createUser, editUser, deleteUser } = require('./user.controller');
 const auth = require('../../middlewares/auth.middleware');
+const isAdmin = require('../../middlewares/admin.middleware');
 
 /**
  * @swagger
@@ -62,7 +63,7 @@ router.get('/profile', auth, (req, res) => {
  *       404:
  *         description: User not found
  */
-router.put('/:id', auth, editUser);
+router.put('/:id', auth, isAdmin, editUser);
 /**
  * @swagger
  * /users/:
@@ -108,7 +109,7 @@ router.get('/', auth, getUsers);
  *       404:
  *         description: User not found
  */
-router.post('/', auth, createUser);
+router.post('/', auth, isAdmin, createUser);
 /**
  * @swagger
  * /users/{id}:
@@ -134,6 +135,6 @@ router.post('/', auth, createUser);
  *         description: Unauthorized
  */
 
-router.delete('/:id', auth, deleteUser);
+router.delete('/:id', auth, isAdmin, deleteUser);
 
 module.exports = router;
